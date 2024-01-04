@@ -1,19 +1,8 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: GitRepository
-metadata:
-  name: my-terraform-resource
-  namespace: flux-terraform
-spec:
-  interval: 30s
-  url: https://github.com/vimuchiaroni/flux-terraform-azure
-  ref:
-    branch: main
----
 apiVersion: infra.contrib.fluxcd.io/v1alpha2
 kind: Terraform
 metadata:
   name: my-terraform-resource
-  namespace: flux-terraform
+  namespace: flux-system
 spec:
   interval: 1m
   approvePlan: auto
@@ -21,7 +10,7 @@ spec:
   path: ./terraform/azure/storage-account
   sourceRef:
     kind: GitRepository
-    name: my-terraform-resource
+    name: flux-system
   runnerPodTemplate:
     spec:
       image: docker.io/vimuchiaroni/tf-az-cli:1.0
